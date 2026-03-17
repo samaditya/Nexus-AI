@@ -5,8 +5,8 @@ __pycache__/
 venv/
 .env
 
-# Chroma vectorstore
-data/chroma_db/
+# Chroma vectorstore and user documents
+data/
 
 # Node / Vite React
 frontend/node_modules/
