@@ -22,7 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy backend code
 COPY main.py .
 COPY app/ ./app/
-COPY data/ ./data/
+# Create data directory (it's gitignored locally)
+RUN mkdir -p data
 
 # Copy built frontend from Stage 1
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
