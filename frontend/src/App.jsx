@@ -28,8 +28,9 @@ function App() {
     const formData = new FormData();
     formData.append('file', file);
 
+    const API_BASE = import.meta.env.VITE_API_URL || '';
     try {
-      const response = await fetch('http://127.0.0.1:8000/upload', {
+      const response = await fetch(`${API_BASE}/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -63,8 +64,9 @@ function App() {
     setIsTyping(true);
     setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
+    const API_BASE = import.meta.env.VITE_API_URL || '';
     try {
-      const response = await fetch('http://127.0.0.1:8000/chat', {
+      const response = await fetch(`${API_BASE}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

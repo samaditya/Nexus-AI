@@ -3,7 +3,8 @@ import shutil
 import warnings
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional
 from dotenv import load_dotenv
@@ -55,3 +56,13 @@ async def chat_endpoint(request: ChatRequest):
         generate_chat_stream(request.prompt, request.active_document),
         media_type="text/event-stream"
     )
+
+# Serve Frontend
+# Check if the build directory exists
+frontend_path = "frontend/dist"
+if os.path.exists(frontend_path):
+    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+
+    @app.exception_handler(404)
+    async def not_found_handler(request, exc):
+        return FileResponse(f"{frontend_path}/index.html")
